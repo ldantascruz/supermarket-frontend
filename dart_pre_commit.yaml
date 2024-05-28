@@ -1,0 +1,2 @@
+pull-up-dependencies:
+   allowed: ['test']
