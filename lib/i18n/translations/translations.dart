@@ -10,5 +10,8 @@ abstract class Translations {
   ///Meu Supermercado
   String get mySupermarket;
 
+  /// Pesquisar
+  String get search;
+
 
 }

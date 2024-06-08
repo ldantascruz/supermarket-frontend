@@ -9,5 +9,6 @@ class Es implements Translations {
   // Traducciones generals
   String get ok => 'OK';
   String get mySupermarket => 'Mi Supermercado';
+  String get search => 'Buscar';
 
 }

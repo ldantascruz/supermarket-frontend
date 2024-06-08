@@ -9,5 +9,6 @@ class En implements Translations {
   // General translations
   String get ok => 'OK';
   String get mySupermarket => 'My Supermarket';
+  String get search => 'Search';
 
 }

@@ -9,5 +9,5 @@ class Pt implements Translations {
   // General translations
   String get ok => 'OK';
   String get mySupermarket => 'Meu Supermercado';
-
+  String get search => 'Pesquisar';
 }

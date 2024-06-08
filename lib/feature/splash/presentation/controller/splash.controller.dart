@@ -1,8 +1,11 @@
 import 'package:flutter/animation.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 
+import '../../../../core/shared/presentation/controller/usuario_logado.controller.dart';
+import '../../../authentication/authentication.routes.dart';
 
 class SplashController extends GetxController
     with GetSingleTickerProviderStateMixin {
@@ -10,6 +13,7 @@ class SplashController extends GetxController
   late Animation<double> logoAnimation;
   late Animation<double> textAnimation;
 
+  final usuarioController = Get.find<UsuarioLogadoController>();
 
   @override
   void onInit() {
@@ -33,12 +37,19 @@ class SplashController extends GetxController
     animationController.forward().then(
           (value) => Future.delayed(
             Duration(seconds: 2),
-            () => Get.offNamed('/home'),
+            () => checkAuthentication(),
           ),
         );
   }
 
-
+  void checkAuthentication() async {
+    final isLoggedIn = await usuarioController.isLogged;
+    if (isLoggedIn) {
+      Get.offAllNamed('/home');
+    } else {
+      Get.offAllNamed(AuthenticationRoutes.login);
+    }
+  }
 
   @override
   void onClose() {
