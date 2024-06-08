@@ -63,7 +63,6 @@ class AuthenticationDatasourceImpl implements AuthenticationDatasource {
       );
 
       final user =  UserExtension.fromMap(response.data);
-      usuarioLogadoController.logIn(user);
 
       return user;
     } on dio.DioException catch (e) {

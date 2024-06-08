@@ -5,6 +5,7 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
+import 'package:supermarket_flutter/core/shared/presentation/widget/show.custom_dialog_error.widget.dart';
 
 import '../../../../core/config/constants/app.colors.dart';
 import '../../../../core/shared/presentation/widget/elevated_button.widget.dart';
@@ -49,7 +50,7 @@ class RegisterPage extends StatelessWidget {
                   ),
                   SizedBox(height: 32.h),
                   Form(
-                    key: controller.formKey,
+                    key: controller.registerFormKey,
                     child: Column(
                       children: [
                         TextFormFieldWidget(
@@ -57,6 +58,8 @@ class RegisterPage extends StatelessWidget {
                           hintText: 'Insira o seu nome completo',
                           keyboardType: TextInputType.text,
                           controller: controller.nameController,
+                          textCapitalization: TextCapitalization.words,
+                          textInputAction: TextInputAction.next,
                           validator: (name) => NameValidator().validate(name: name)
                         ),
                         SizedBox(height: 16.h),
@@ -65,6 +68,8 @@ class RegisterPage extends StatelessWidget {
                           hintText: 'Insira o seu e-mail',
                           keyboardType: TextInputType.emailAddress,
                           controller: controller.emailController,
+                          textCapitalization: TextCapitalization.none,
+                          textInputAction: TextInputAction.next,
                           validator: (email) => EmailValidator().validate(email: email),
                         ),
                         SizedBox(height: 16.h),
@@ -74,10 +79,11 @@ class RegisterPage extends StatelessWidget {
                             hintText: 'Crie uma senha',
                             controller: controller.passwordController,
                             keyboardType: TextInputType.visiblePassword,
-                            obscureText: controller.isObscureText.value,
+                            obscureText: controller.isObscureTextPasswordRegister.value,
+                            textInputAction: TextInputAction.next,
                             suffixIcon: InkWell(
-                              onTap: () => controller.toggleObscureText(),
-                              child: controller.isObscureText.value
+                              onTap: () => controller.toggleObscureTextPasswordRegister(),
+                              child: controller.isObscureTextPasswordRegister.value
                                   ? Icon(
                                 Icons.visibility_off,
                                 size: 24.sp,
@@ -99,10 +105,11 @@ class RegisterPage extends StatelessWidget {
                             hintText: 'Insira novamente a sua senha',
                             controller: controller.confirmPasswordController,
                             keyboardType: TextInputType.visiblePassword,
-                            obscureText: controller.isObscureText.value,
+                            obscureText: controller.isObscureTextConfPasswordRegister.value,
+                            textInputAction: TextInputAction.done,
                             suffixIcon: InkWell(
-                              onTap: () => controller.toggleObscureText(),
-                              child: controller.isObscureText.value
+                              onTap: () => controller.toggleObscureTextConfPasswordRegister(),
+                              child: controller.isObscureTextConfPasswordRegister.value
                                   ? Icon(
                                 Icons.visibility_off,
                                 size: 24.sp,
@@ -121,7 +128,13 @@ class RegisterPage extends StatelessWidget {
                     ),
                   ),
                   SizedBox(height: 32.h),
-                  ElevatedButtonWidget(onTap: () async => controller.doRegister(), text: 'Cadastrar'),
+                  ElevatedButtonWidget(
+                      onTap: () async {
+                        await controller.doRegister(context: context);
+                        // showCustomDialogError(context: context, title: "Erro!", content: "E-mail já cadastrado", buttonText: "OK");
+                      },
+                      text: 'Cadastrar',
+                  ),
                   SizedBox(height: 32.h),
                   InkWell(
                     onTap: () {

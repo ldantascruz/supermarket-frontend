@@ -19,6 +19,8 @@ class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = Get.find<AuthenticationController>();
+    // Recupere os arguments passados pela rota
+    final args = Get.arguments;
 
     return Scaffold(
       body: SingleChildScrollView(
@@ -34,13 +36,15 @@ class LoginPage extends StatelessWidget {
                   Text('Login', textAlign: TextAlign.center, style: TextStyle(fontSize: 32.sp, fontWeight: FontWeight.bold, color: AppColors.primaryColor)),
                   SizedBox(height: 32.h),
                   Form(
-                    key: controller.formKey,
+                    key: controller.loginFormKey,
                     child: Column(
                       children: [
                         TextFormFieldWidget(
                           labelText: 'E-mail',
                           hintText: 'Digite aqui o seu e-mail',
                           keyboardType: TextInputType.emailAddress,
+                          textInputAction: TextInputAction.next,
+                          textCapitalization: TextCapitalization.none,
                           controller: controller.emailController,
                           validator: (email) => EmailValidator().validate(email: email),
                         ),
@@ -51,10 +55,12 @@ class LoginPage extends StatelessWidget {
                             hintText: 'Digite aqui a sua senha',
                             controller: controller.passwordController,
                             keyboardType: TextInputType.visiblePassword,
-                            obscureText: controller.isObscureText.value,
+                            textInputAction: TextInputAction.done,
+                            textCapitalization: TextCapitalization.none,
+                            obscureText: controller.isObscureTextPasswordLogin.value,
                             suffixIcon: InkWell(
-                              onTap: () => controller.toggleObscureText(),
-                              child: controller.isObscureText.value
+                              onTap: () => controller.toggleObscureTextPasswordLogin(),
+                              child: controller.isObscureTextPasswordLogin.value
                                   ? Icon(
                                 Icons.visibility_off,
                                 size: 24.sp,

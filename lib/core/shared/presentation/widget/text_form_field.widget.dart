@@ -3,12 +3,12 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../config/constants/app.colors.dart';
-import '../../../config/constants/app.fonts.dart';
 import '../../../config/constants/app.size.dart';
 
 class TextFormFieldWidget extends StatelessWidget {
   final String labelText;
   final String hintText;
+  final String? initialValue;
   final TextEditingController controller;
   final Function(String)? validator;
   final Function(String)? onChanged;
@@ -27,6 +27,7 @@ class TextFormFieldWidget extends StatelessWidget {
     super.key,
     required this.labelText,
     required this.hintText,
+    this.initialValue,
     required this.controller,
     this.obscureText,
     this.keyboardType,
@@ -61,6 +62,7 @@ class TextFormFieldWidget extends StatelessWidget {
           height: height,
           alignment: Alignment.centerLeft,
           child: TextFormField(
+            initialValue: initialValue,
             maxLines: maxLines,
             minLines: 1,
             enabled: enabled,
