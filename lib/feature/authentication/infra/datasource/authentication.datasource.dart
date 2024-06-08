@@ -1,3 +1,7 @@
+import '../../../../entity/authentication.dart';
+import '../../../../entity/user.dart';
+
 abstract class AuthenticationDatasource {
-  Future<String> doLogin({required String email, required String password});
+  Future<User> doLogin({required Authentication authentication});
+  Future<User> doRegister({required User newUser});
 }

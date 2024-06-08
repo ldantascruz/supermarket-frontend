@@ -63,5 +63,4 @@ extension UserExtension on User {
       );
     }
   }
-
 }

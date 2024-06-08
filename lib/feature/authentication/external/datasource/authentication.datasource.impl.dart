@@ -5,6 +5,8 @@ import 'package:get/get_instance/src/extension_instance.dart';
 import '../../../../core/config/constants/app.endpoints.dart';
 import '../../../../core/exception/map.exception.dart';
 import '../../../../core/shared/presentation/controller/usuario_logado.controller.dart';
+import '../../../../entity/authentication.dart';
+import '../../../../entity/user.dart';
 import '../../infra/datasource/authentication.datasource.dart';
 
 class AuthenticationDatasourceImpl implements AuthenticationDatasource {
@@ -24,26 +26,53 @@ class AuthenticationDatasourceImpl implements AuthenticationDatasource {
   }
 
   @override
-  Future<String> doLogin({required String email, required String password}) async {
+  Future<User> doLogin({required Authentication authentication}) async {
     String uri = AppEndpoints.baseUrl + AppEndpoints.login;
     try {
       var response = await httpClient.post(
         uri,
-        queryParameters: {
-          'email': email,
-          'password': password,
-        },
+        data: authentication.toMap(),
         options: await getOptions(),
       );
 
-      return response.data['token'];
+      final user =  UserExtension.fromMap(response.data);
+      usuarioLogadoController.logIn(user);
+
+      return user;
     } on dio.DioException catch (e) {
       if (e.response!.statusCode == 401) {
-        throw UnauthorizedException(message: 'Unauthorized');
+        throw UnauthorizedException();
       } else if (e.response!.statusCode == 404) {
-        throw NotFoundException(message: 'Not Found');
+        throw NotFoundException();
       } else if (e.response!.statusCode == 500) {
-        throw ServerException(message: 'Internal Server Error');
+        throw ServerException();
+      } else {
+        throw Exception('Erro inesperado');
+      }
+    }
+  }
+
+  @override
+  Future<User> doRegister({required User newUser}) async {
+    String uri = AppEndpoints.baseUrl + AppEndpoints.users;
+    try {
+      var response = await httpClient.post(
+        uri,
+        data: newUser.toMap(),
+        options: await getOptions(),
+      );
+
+      final user =  UserExtension.fromMap(response.data);
+      usuarioLogadoController.logIn(user);
+
+      return user;
+    } on dio.DioException catch (e) {
+      if (e.response!.statusCode == 401) {
+        throw UnauthorizedException();
+      } else if (e.response!.statusCode == 404) {
+        throw NotFoundException();
+      } else if (e.response!.statusCode == 500) {
+        throw ServerException();
       } else {
         throw Exception('Erro inesperado');
       }

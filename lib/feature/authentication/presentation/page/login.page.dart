@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -9,6 +8,8 @@ import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import '../../../../core/config/constants/app.colors.dart';
 import '../../../../core/shared/presentation/widget/elevated_button.widget.dart';
 import '../../../../core/shared/presentation/widget/text_form_field.widget.dart';
+import '../../../../core/util/validator/email_validator.dart';
+import '../../../../core/util/validator/password_validator.dart';
 import '../../authentication.routes.dart';
 import '../controller/authentication.controller.dart';
 
@@ -29,56 +30,53 @@ class LoginPage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   SizedBox(height: 32.h),
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(32.r),
-                    child: Image.asset(
-                      'assets/images/icon.png',
-                      width: 200.w,
-                    ),
-                  ),
-                  Text(
-                    'Login',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 32.sp,
-                      fontWeight: FontWeight.bold,
-                      color: AppColors.primaryColor,
-                    ),
-                  ),
+                  ClipRRect(borderRadius: BorderRadius.circular(32.r), child: Image.asset('assets/images/icon.png', width: 200.w)),
+                  Text('Login', textAlign: TextAlign.center, style: TextStyle(fontSize: 32.sp, fontWeight: FontWeight.bold, color: AppColors.primaryColor)),
                   SizedBox(height: 32.h),
-                  TextFormFieldWidget(
-                    labelText: 'E-mail',
-                    hintText: 'Digite aqui o seu e-mail',
-                    keyboardType: TextInputType.emailAddress,
-                    controller: controller.emailController,
-                    onChanged: (value) {},
-                  ),
-                  SizedBox(height: 16.h),
-                  Obx(() {
-                    return TextFormFieldWidget(
-                      labelText: 'Senha',
-                      hintText: 'Digite aqui a sua senha',
-                      controller: controller.passwordController,
-                      keyboardType: TextInputType.visiblePassword,
-                      obscureText: controller.obscureText.value,
-                      suffixIcon: InkWell(
-                        onTap: () => controller.toggleObscureText(),
-                        child: controller.obscureText.value
-                            ? Icon(
-                          Icons.visibility_off,
-                          size: 24.sp,
-                          color: AppColors.primaryColor,
-                        )
-                            : Icon(
-                          Icons.visibility,
-                          size: 24.sp,
-                          color: AppColors.primaryColor,
+                  Form(
+                    key: controller.formKey,
+                    child: Column(
+                      children: [
+                        TextFormFieldWidget(
+                          labelText: 'E-mail',
+                          hintText: 'Digite aqui o seu e-mail',
+                          keyboardType: TextInputType.emailAddress,
+                          controller: controller.emailController,
+                          validator: (email) => EmailValidator().validate(email: email),
                         ),
-                      ),
-                    );
-                  }),
+                        SizedBox(height: 16.h),
+                        Obx(() {
+                          return TextFormFieldWidget(
+                            labelText: 'Senha',
+                            hintText: 'Digite aqui a sua senha',
+                            controller: controller.passwordController,
+                            keyboardType: TextInputType.visiblePassword,
+                            obscureText: controller.isObscureText.value,
+                            suffixIcon: InkWell(
+                              onTap: () => controller.toggleObscureText(),
+                              child: controller.isObscureText.value
+                                  ? Icon(
+                                Icons.visibility_off,
+                                size: 24.sp,
+                                color: AppColors.primaryColor,
+                              )
+                                  : Icon(
+                                Icons.visibility,
+                                size: 24.sp,
+                                color: AppColors.primaryColor,
+                              ),
+                            ),
+                            validator: (password) => PasswordValidator().validate(password: password),
+                          );
+                        }),
+                      ],
+                    ),
+                  ),
                   SizedBox(height: 32.h),
-                  ElevatedButtonWidget(onTap: () {}, text: 'Login'),
+                  ElevatedButtonWidget(onTap: () async {
+                    FocusScope.of(context).unfocus();
+                    return await controller.doLogin();
+                  }, text: 'Login'),
                   SizedBox(height: 32.h),
                   InkWell(
                     onTap: () {
@@ -86,16 +84,14 @@ class LoginPage extends StatelessWidget {
                       Get.toNamed(AuthenticationRoutes.register);
                     },
                     child: Text.rich(
-                      TextSpan(
-                        text: 'Não tem uma conta? ',
+                      TextSpan(text: 'Não tem uma conta? ',
                         children: [
                           TextSpan(
                             text: 'Cadastre-se',
                             style: TextStyle(
                               color: AppColors.primaryColor,
                               fontWeight: FontWeight.bold,
-                            ),
-                          ),
+                            )),
                         ],
                       ),
                     ),

@@ -1,7 +1,7 @@
 abstract class AppEndpoints {
   AppEndpoints._();
 
-  static const String baseUrl = 'http://localhost:8080';
+  static const String baseUrl = 'http://192.168.40.101:8080';
 
   static const String login = '/auth/login';
   static const String users = '/users';

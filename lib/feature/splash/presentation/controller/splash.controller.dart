@@ -6,6 +6,7 @@ import 'package:get/get_state_manager/get_state_manager.dart';
 
 import '../../../../core/shared/presentation/controller/usuario_logado.controller.dart';
 import '../../../authentication/authentication.routes.dart';
+import '../../../home/home.routes.dart';
 
 class SplashController extends GetxController
     with GetSingleTickerProviderStateMixin {
@@ -45,7 +46,7 @@ class SplashController extends GetxController
   void checkAuthentication() async {
     final isLoggedIn = await usuarioController.isLogged;
     if (isLoggedIn) {
-      Get.offAllNamed('/home');
+      Get.offAllNamed(HomeRoutes.home, arguments: usuarioController.usuarioLogado);
     } else {
       Get.offAllNamed(AuthenticationRoutes.login);
     }

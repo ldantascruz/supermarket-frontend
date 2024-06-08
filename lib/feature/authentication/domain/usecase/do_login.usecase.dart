@@ -1,3 +1,5 @@
+import '../../../../entity/authentication.dart';
+import '../../../../entity/user.dart';
 import '../repository/authentication.repository.dart';
 
 class DoLoginUsecase {
@@ -5,9 +7,9 @@ class DoLoginUsecase {
 
   DoLoginUsecase(this.repository);
 
-  Future<String> call({required String email, required String password}) async {
+  Future<User> call({required Authentication authentication}) async {
     try {
-      return await repository.doLogin(email: email, password: password);
+      return await repository.doLogin(authentication: authentication);
     } catch (e) {
       rethrow;
     }

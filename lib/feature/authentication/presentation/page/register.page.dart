@@ -9,6 +9,10 @@ import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import '../../../../core/config/constants/app.colors.dart';
 import '../../../../core/shared/presentation/widget/elevated_button.widget.dart';
 import '../../../../core/shared/presentation/widget/text_form_field.widget.dart';
+import '../../../../core/util/validator/confirm_password_validator.dart';
+import '../../../../core/util/validator/email_validator.dart';
+import '../../../../core/util/validator/name_validator.dart';
+import '../../../../core/util/validator/password_validator.dart';
 import '../controller/authentication.controller.dart';
 
 class RegisterPage extends StatelessWidget {
@@ -44,72 +48,80 @@ class RegisterPage extends StatelessWidget {
                     ),
                   ),
                   SizedBox(height: 32.h),
-                  TextFormFieldWidget(
-                    labelText: 'Nome',
-                    hintText: 'Insira o seu nome completo',
-                    keyboardType: TextInputType.text,
-                    controller: controller.nameController,
-                    onChanged: (value) {},
-                  ),
-                  SizedBox(height: 16.h),
-                  TextFormFieldWidget(
-                    labelText: 'E-mail',
-                    hintText: 'Insira o seu e-mail',
-                    keyboardType: TextInputType.emailAddress,
-                    controller: controller.emailController,
-                    onChanged: (value) {},
-                  ),
-                  SizedBox(height: 16.h),
-                  Obx(() {
-                    return TextFormFieldWidget(
-                      labelText: 'Senha',
-                      hintText: 'Crie uma senha',
-                      controller: controller.passwordController,
-                      keyboardType: TextInputType.visiblePassword,
-                      obscureText: controller.obscureText.value,
-                      suffixIcon: InkWell(
-                        onTap: () => controller.toggleObscureText(),
-                        child: controller.obscureText.value
-                            ? Icon(
-                          Icons.visibility_off,
-                          size: 24.sp,
-                          color: AppColors.primaryColor,
-                        )
-                            : Icon(
-                          Icons.visibility,
-                          size: 24.sp,
-                          color: AppColors.primaryColor,
+                  Form(
+                    key: controller.formKey,
+                    child: Column(
+                      children: [
+                        TextFormFieldWidget(
+                          labelText: 'Nome',
+                          hintText: 'Insira o seu nome completo',
+                          keyboardType: TextInputType.text,
+                          controller: controller.nameController,
+                          validator: (name) => NameValidator().validate(name: name)
                         ),
-                      ),
-                    );
-                  }),
-                  SizedBox(height: 16.h),
-
-                  Obx(() {
-                    return TextFormFieldWidget(
-                      labelText: 'Confirmação de Senha',
-                      hintText: 'Insira novamente a sua senha',
-                      controller: controller.passwordController,
-                      keyboardType: TextInputType.visiblePassword,
-                      obscureText: controller.obscureText.value,
-                      suffixIcon: InkWell(
-                        onTap: () => controller.toggleObscureText(),
-                        child: controller.obscureText.value
-                            ? Icon(
-                          Icons.visibility_off,
-                          size: 24.sp,
-                          color: AppColors.primaryColor,
-                        )
-                            : Icon(
-                          Icons.visibility,
-                          size: 24.sp,
-                          color: AppColors.primaryColor,
+                        SizedBox(height: 16.h),
+                        TextFormFieldWidget(
+                          labelText: 'E-mail',
+                          hintText: 'Insira o seu e-mail',
+                          keyboardType: TextInputType.emailAddress,
+                          controller: controller.emailController,
+                          validator: (email) => EmailValidator().validate(email: email),
                         ),
-                      ),
-                    );
-                  }),
+                        SizedBox(height: 16.h),
+                        Obx(() {
+                          return TextFormFieldWidget(
+                            labelText: 'Senha',
+                            hintText: 'Crie uma senha',
+                            controller: controller.passwordController,
+                            keyboardType: TextInputType.visiblePassword,
+                            obscureText: controller.isObscureText.value,
+                            suffixIcon: InkWell(
+                              onTap: () => controller.toggleObscureText(),
+                              child: controller.isObscureText.value
+                                  ? Icon(
+                                Icons.visibility_off,
+                                size: 24.sp,
+                                color: AppColors.primaryColor,
+                              )
+                                  : Icon(
+                                Icons.visibility,
+                                size: 24.sp,
+                                color: AppColors.primaryColor,
+                              ),
+                            ),
+                            validator: (password) => PasswordValidator().validate(password: password),
+                          );
+                        }),
+                        SizedBox(height: 16.h),
+                        Obx(() {
+                          return TextFormFieldWidget(
+                            labelText: 'Confirmação de Senha',
+                            hintText: 'Insira novamente a sua senha',
+                            controller: controller.confirmPasswordController,
+                            keyboardType: TextInputType.visiblePassword,
+                            obscureText: controller.isObscureText.value,
+                            suffixIcon: InkWell(
+                              onTap: () => controller.toggleObscureText(),
+                              child: controller.isObscureText.value
+                                  ? Icon(
+                                Icons.visibility_off,
+                                size: 24.sp,
+                                color: AppColors.primaryColor,
+                              )
+                                  : Icon(
+                                Icons.visibility,
+                                size: 24.sp,
+                                color: AppColors.primaryColor,
+                              ),
+                            ),
+                            validator: (myConfPassword) => ConfirmPasswordValidator().validate(password: controller.passwordController.text, confirmPassword: myConfPassword),
+                          );
+                        }),
+                      ],
+                    ),
+                  ),
                   SizedBox(height: 32.h),
-                  ElevatedButtonWidget(onTap: () {}, text: 'Login'),
+                  ElevatedButtonWidget(onTap: () async => controller.doRegister(), text: 'Cadastrar'),
                   SizedBox(height: 32.h),
                   InkWell(
                     onTap: () {
