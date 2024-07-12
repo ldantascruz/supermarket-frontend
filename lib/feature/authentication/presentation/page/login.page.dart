@@ -19,92 +19,89 @@ class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = Get.find<AuthenticationController>();
-    // Recupere os arguments passados pela rota
-    final args = Get.arguments;
 
     return Scaffold(
       body: SingleChildScrollView(
-        child: SafeArea(
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 32.w),
-            child: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SizedBox(height: 32.h),
-                  ClipRRect(borderRadius: BorderRadius.circular(32.r), child: Image.asset('assets/images/icon.png', width: 200.w)),
-                  Text('Login', textAlign: TextAlign.center, style: TextStyle(fontSize: 32.sp, fontWeight: FontWeight.bold, color: AppColors.primaryColor)),
-                  SizedBox(height: 32.h),
-                  Form(
-                    key: controller.loginFormKey,
-                    child: Column(
-                      children: [
-                        TextFormFieldWidget(
-                          labelText: 'E-mail',
-                          hintText: 'Digite aqui o seu e-mail',
-                          keyboardType: TextInputType.emailAddress,
-                          textInputAction: TextInputAction.next,
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 32.w),
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(height: 189.h),
+                ClipRRect(borderRadius: BorderRadius.circular(32.r), child: Image.asset('assets/images/icon_transparent_2.png', width: 100.w)),
+                SizedBox(height: 42.h),
+                Text('Login', textAlign: TextAlign.center, style: TextStyle(fontSize: 32.sp, fontWeight: FontWeight.bold, color: AppColors.primaryColor)),
+                SizedBox(height: 42.h),
+                Form(
+                  key: controller.loginFormKey,
+                  child: Column(
+                    children: [
+                      TextFormFieldWidget(
+                        labelText: 'E-mail',
+                        hintText: 'Digite aqui o seu e-mail',
+                        keyboardType: TextInputType.emailAddress,
+                        textInputAction: TextInputAction.next,
+                        textCapitalization: TextCapitalization.none,
+                        controller: controller.emailController,
+                        validator: (email) => EmailValidator().validate(email: email),
+                      ),
+                      SizedBox(height: 16.h),
+                      Obx(() {
+                        return TextFormFieldWidget(
+                          labelText: 'Senha',
+                          hintText: 'Digite aqui a sua senha',
+                          controller: controller.passwordController,
+                          keyboardType: TextInputType.visiblePassword,
+                          textInputAction: TextInputAction.done,
                           textCapitalization: TextCapitalization.none,
-                          controller: controller.emailController,
-                          validator: (email) => EmailValidator().validate(email: email),
-                        ),
-                        SizedBox(height: 16.h),
-                        Obx(() {
-                          return TextFormFieldWidget(
-                            labelText: 'Senha',
-                            hintText: 'Digite aqui a sua senha',
-                            controller: controller.passwordController,
-                            keyboardType: TextInputType.visiblePassword,
-                            textInputAction: TextInputAction.done,
-                            textCapitalization: TextCapitalization.none,
-                            obscureText: controller.isObscureTextPasswordLogin.value,
-                            suffixIcon: InkWell(
-                              onTap: () => controller.toggleObscureTextPasswordLogin(),
-                              child: controller.isObscureTextPasswordLogin.value
-                                  ? Icon(
-                                Icons.visibility_off,
-                                size: 24.sp,
-                                color: AppColors.primaryColor,
-                              )
-                                  : Icon(
-                                Icons.visibility,
-                                size: 24.sp,
-                                color: AppColors.primaryColor,
-                              ),
+                          obscureText: controller.isObscureTextPasswordLogin.value,
+                          suffixIcon: InkWell(
+                            onTap: () => controller.toggleObscureTextPasswordLogin(),
+                            child: controller.isObscureTextPasswordLogin.value
+                                ? Icon(
+                              Icons.visibility_off,
+                              size: 24.sp,
+                              color: AppColors.primaryColor,
+                            )
+                                : Icon(
+                              Icons.visibility,
+                              size: 24.sp,
+                              color: AppColors.primaryColor,
                             ),
-                            validator: (password) => PasswordValidator().validate(password: password),
-                          );
-                        }),
+                          ),
+                          validator: (password) => PasswordValidator().validate(password: password),
+                        );
+                      }),
+                    ],
+                  ),
+                ),
+                SizedBox(height: 32.h),
+                ElevatedButtonWidget(onTap: () async {
+                  FocusScope.of(context).unfocus();
+                  return await controller.doLogin();
+                }, text: 'Login'),
+                SizedBox(height: 32.h),
+                InkWell(
+                  onTap: () {
+                    FocusScope.of(context).unfocus();
+                    Get.toNamed(AuthenticationRoutes.register);
+                  },
+                  child: Text.rich(
+                    TextSpan(text: 'Não tem uma conta? ',
+                      children: [
+                        TextSpan(
+                          text: 'Cadastre-se',
+                          style: TextStyle(
+                            color: AppColors.primaryColor,
+                            fontWeight: FontWeight.bold,
+                          )),
                       ],
                     ),
                   ),
-                  SizedBox(height: 32.h),
-                  ElevatedButtonWidget(onTap: () async {
-                    FocusScope.of(context).unfocus();
-                    return await controller.doLogin();
-                  }, text: 'Login'),
-                  SizedBox(height: 32.h),
-                  InkWell(
-                    onTap: () {
-                      FocusScope.of(context).unfocus();
-                      Get.toNamed(AuthenticationRoutes.register);
-                    },
-                    child: Text.rich(
-                      TextSpan(text: 'Não tem uma conta? ',
-                        children: [
-                          TextSpan(
-                            text: 'Cadastre-se',
-                            style: TextStyle(
-                              color: AppColors.primaryColor,
-                              fontWeight: FontWeight.bold,
-                            )),
-                        ],
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 32.h),
-                ],
-              ),
+                ),
+                SizedBox(height: 32.h),
+              ],
             ),
           ),
         ),

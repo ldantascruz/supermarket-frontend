@@ -15,7 +15,7 @@ class SplashPage extends StatelessWidget {
     final SplashController controller = Get.find<SplashController>();
 
     return Scaffold(
-      backgroundColor: AppColors.backgroundColor,
+      backgroundColor: AppColors.primaryColor,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -30,7 +30,7 @@ class SplashPage extends StatelessWidget {
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(10),
                   child: Image.asset(
-                    'assets/images/icon.png',
+                    'assets/images/icon_transparent_2.png',
                     width: 120,
                     height: 120,
                   ),

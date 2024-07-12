@@ -24,7 +24,7 @@ abstract class AppThemes {
   static const String themeModeBatterySaver = 'batterySaver';
 
   static ThemeData themeData = ThemeData(
-    fontFamily: AppFonts.poppins,
+    fontFamily: AppFonts.breeSerif,
     colorScheme: const ColorScheme.light(
       background: AppColors.backgroundColor,
       brightness: Brightness.light,

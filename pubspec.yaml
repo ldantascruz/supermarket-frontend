@@ -56,6 +56,12 @@ flutter:
         - asset: assets/fonts/Poppins-Regular.ttf
           weight: 400
 
+    - family: BreeSerif
+      fonts:
+        - asset: assets/fonts/BreeSerif-Regular.ttf
+          weight: 400
+
+
 flutter_launcher_icons:
   #GLOBAL
   image_path: "assets/images/icon.png"
