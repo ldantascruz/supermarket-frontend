@@ -41,11 +41,10 @@ class SplashPage extends StatelessWidget {
             FadeTransition(
               opacity: controller.textAnimation,
               child: Text(
-                R.strings.mySupermarket,
+                R.strings.myMarket,
                 style: TextStyle(
-                  fontSize: 26.sp,
-                  fontWeight: FontWeight.bold,
-                  color: AppColors.primaryColor,
+                  fontSize: 42.sp,
+                  color: AppColors.whiteColor,
                 ),
               ),
             ),

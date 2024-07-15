@@ -5,7 +5,6 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
-import 'package:supermarket_flutter/core/shared/presentation/widget/show.custom_dialog_error.widget.dart';
 
 import '../../../../core/config/constants/app.colors.dart';
 import '../../../../core/shared/presentation/widget/elevated_button.widget.dart';
@@ -14,6 +13,7 @@ import '../../../../core/util/validator/confirm_password_validator.dart';
 import '../../../../core/util/validator/email_validator.dart';
 import '../../../../core/util/validator/name_validator.dart';
 import '../../../../core/util/validator/password_validator.dart';
+import '../../../../i18n/_i18n.dart';
 import '../controller/authentication.controller.dart';
 
 class RegisterPage extends StatelessWidget {
@@ -35,12 +35,12 @@ class RegisterPage extends StatelessWidget {
                   ClipRRect(
                     borderRadius: BorderRadius.circular(32.r),
                     child: Image.asset(
-                      'assets/images/icon.png',
+                      'assets/images/icon_transparent_2.png',
                       width: 200.w,
                     ),
                   ),
                   Text(
-                    'Cadastrar',
+                    R.strings.register,
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontSize: 32.sp,
@@ -54,8 +54,8 @@ class RegisterPage extends StatelessWidget {
                     child: Column(
                       children: [
                         TextFormFieldWidget(
-                          labelText: 'Nome',
-                          hintText: 'Insira o seu nome completo',
+                          labelText: R.strings.name,
+                          hintText: R.strings.nameHint, //'Insira o seu nome completo',
                           keyboardType: TextInputType.text,
                           controller: controller.nameController,
                           textCapitalization: TextCapitalization.words,
@@ -64,8 +64,8 @@ class RegisterPage extends StatelessWidget {
                         ),
                         SizedBox(height: 16.h),
                         TextFormFieldWidget(
-                          labelText: 'E-mail',
-                          hintText: 'Insira o seu e-mail',
+                          labelText: R.strings.email,
+                          hintText: R.strings.emailHint, // 'Insira o seu e-mail',
                           keyboardType: TextInputType.emailAddress,
                           controller: controller.emailController,
                           textCapitalization: TextCapitalization.none,
@@ -75,8 +75,8 @@ class RegisterPage extends StatelessWidget {
                         SizedBox(height: 16.h),
                         Obx(() {
                           return TextFormFieldWidget(
-                            labelText: 'Senha',
-                            hintText: 'Crie uma senha',
+                            labelText: R.strings.password,
+                            hintText: R.strings.createPasswordHint, // 'Crie uma senha',
                             controller: controller.passwordController,
                             keyboardType: TextInputType.visiblePassword,
                             obscureText: controller.isObscureTextPasswordRegister.value,
@@ -101,8 +101,8 @@ class RegisterPage extends StatelessWidget {
                         SizedBox(height: 16.h),
                         Obx(() {
                           return TextFormFieldWidget(
-                            labelText: 'Confirmação de Senha',
-                            hintText: 'Insira novamente a sua senha',
+                            labelText: R.strings.confirmPasswordHint,
+                            hintText: R.strings.confirmPasswordHint, // 'Confirme a sua senha',
                             controller: controller.confirmPasswordController,
                             keyboardType: TextInputType.visiblePassword,
                             obscureText: controller.isObscureTextConfPasswordRegister.value,
@@ -133,7 +133,7 @@ class RegisterPage extends StatelessWidget {
                         await controller.doRegister(context: context);
                         // showCustomDialogError(context: context, title: "Erro!", content: "E-mail já cadastrado", buttonText: "OK");
                       },
-                      text: 'Cadastrar',
+                      text: R.strings.register
                   ),
                   SizedBox(height: 32.h),
                   InkWell(
@@ -143,10 +143,10 @@ class RegisterPage extends StatelessWidget {
                     },
                     child: Text.rich(
                       TextSpan(
-                        text: 'Já tem uma conta?',
+                        text: R.strings.alreadyRegistered, // 'Já tem uma conta? ',
                         children: [
                           TextSpan(
-                            text: ' Faça login',
+                            text: R.strings.doLogin, // 'Faça login',
                             style: TextStyle(
                               color: AppColors.primaryColor,
                               fontWeight: FontWeight.bold,

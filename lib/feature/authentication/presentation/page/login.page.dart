@@ -10,6 +10,7 @@ import '../../../../core/shared/presentation/widget/elevated_button.widget.dart'
 import '../../../../core/shared/presentation/widget/text_form_field.widget.dart';
 import '../../../../core/util/validator/email_validator.dart';
 import '../../../../core/util/validator/password_validator.dart';
+import '../../../../i18n/_i18n.dart';
 import '../../authentication.routes.dart';
 import '../controller/authentication.controller.dart';
 
@@ -31,15 +32,15 @@ class LoginPage extends StatelessWidget {
                 SizedBox(height: 189.h),
                 ClipRRect(borderRadius: BorderRadius.circular(32.r), child: Image.asset('assets/images/icon_transparent_2.png', width: 100.w)),
                 SizedBox(height: 42.h),
-                Text('Login', textAlign: TextAlign.center, style: TextStyle(fontSize: 32.sp, fontWeight: FontWeight.bold, color: AppColors.primaryColor)),
+                Text(R.strings.login, textAlign: TextAlign.center, style: TextStyle(fontSize: 32.sp, fontWeight: FontWeight.bold, color: AppColors.primaryColor)),
                 SizedBox(height: 42.h),
                 Form(
                   key: controller.loginFormKey,
                   child: Column(
                     children: [
                       TextFormFieldWidget(
-                        labelText: 'E-mail',
-                        hintText: 'Digite aqui o seu e-mail',
+                        labelText: R.strings.email,
+                        hintText: R.strings.emailHint, // 'Digite aqui o seu e-mail'
                         keyboardType: TextInputType.emailAddress,
                         textInputAction: TextInputAction.next,
                         textCapitalization: TextCapitalization.none,
@@ -49,8 +50,8 @@ class LoginPage extends StatelessWidget {
                       SizedBox(height: 16.h),
                       Obx(() {
                         return TextFormFieldWidget(
-                          labelText: 'Senha',
-                          hintText: 'Digite aqui a sua senha',
+                          labelText: R.strings.password,
+                          hintText: R.strings.passwordHint, // 'Digite aqui a sua senha'
                           controller: controller.passwordController,
                           keyboardType: TextInputType.visiblePassword,
                           textInputAction: TextInputAction.done,
@@ -80,7 +81,7 @@ class LoginPage extends StatelessWidget {
                 ElevatedButtonWidget(onTap: () async {
                   FocusScope.of(context).unfocus();
                   return await controller.doLogin();
-                }, text: 'Login'),
+                }, text: R.strings.login),
                 SizedBox(height: 32.h),
                 InkWell(
                   onTap: () {
@@ -88,10 +89,10 @@ class LoginPage extends StatelessWidget {
                     Get.toNamed(AuthenticationRoutes.register);
                   },
                   child: Text.rich(
-                    TextSpan(text: 'Não tem uma conta? ',
+                    TextSpan(text: R.strings.notRegistered,  // 'Não tem uma conta? ',
                       children: [
                         TextSpan(
-                          text: 'Cadastre-se',
+                          text: R.strings.register, // 'Cadastre-se',
                           style: TextStyle(
                             color: AppColors.primaryColor,
                             fontWeight: FontWeight.bold,
