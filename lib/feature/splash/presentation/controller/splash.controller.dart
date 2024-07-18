@@ -3,18 +3,19 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
-import '../../../../core/shared/presentation/controller/usuario_logado.controller.dart';
+import '../../../../core/shared/presentation/controller/user_logged.controller.dart';
 import '../../../authentication/authentication.routes.dart';
 import '../../../home/home.routes.dart';
 
-class SplashController extends GetxController
-    with GetSingleTickerProviderStateMixin {
+class SplashController extends GetxController with GetSingleTickerProviderStateMixin {
   late AnimationController animationController;
   late Animation<double> logoAnimation;
   late Animation<double> textAnimation;
 
-  final usuarioController = Get.find<UsuarioLogadoController>();
+  UserLoggedController userLoggedController = Get.find<UserLoggedController>();
+  final supabase = Supabase.instance.client;
 
   @override
   void onInit() {
@@ -43,12 +44,11 @@ class SplashController extends GetxController
         );
   }
 
-  void checkAuthentication() async {
-    final isLoggedIn = await usuarioController.isLogged;
-    if (isLoggedIn) {
-      Get.offAllNamed(HomeRoutes.home, arguments: usuarioController.usuarioLogado);
+  void checkAuthentication() {
+    if (userLoggedController.isLogged) {
+      Get.offAllNamed(HomeRoutes.home);
     } else {
-      Get.offAllNamed(AuthenticationRoutes.login, );
+      Get.offAllNamed(AuthenticationRoutes.authentication);
     }
   }
 

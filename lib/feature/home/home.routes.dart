@@ -13,6 +13,5 @@ class HomeRoutes {
       page: () => const HomePage(),
       binding: HomeBinding(),
     ),
-
   ];
 }

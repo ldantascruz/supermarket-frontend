@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -6,13 +5,10 @@ import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 
-import '../../../../core/config/constants/app.colors.dart';
-import '../../../../core/shared/presentation/widget/elevated_button.widget.dart';
-import '../../../../core/shared/presentation/widget/text_form_field.widget.dart';
-import '../../../../core/util/validator/confirm_password_validator.dart';
-import '../../../../core/util/validator/email_validator.dart';
-import '../../../../core/util/validator/name_validator.dart';
-import '../../../../core/util/validator/password_validator.dart';
+
+import '../../../../core/config/constants/_constants.dart';
+import '../../../../core/shared/presentation/widget/_widget.dart';
+import '../../../../core/util/validator/_validator.dart';
 import '../../../../i18n/_i18n.dart';
 import '../controller/authentication.controller.dart';
 
@@ -55,7 +51,7 @@ class RegisterPage extends StatelessWidget {
                       children: [
                         TextFormFieldWidget(
                           labelText: R.strings.name,
-                          hintText: R.strings.nameHint, //'Insira o seu nome completo',
+                          hintText: R.strings.nameHint,
                           keyboardType: TextInputType.text,
                           controller: controller.nameController,
                           textCapitalization: TextCapitalization.words,
@@ -65,7 +61,7 @@ class RegisterPage extends StatelessWidget {
                         SizedBox(height: 16.h),
                         TextFormFieldWidget(
                           labelText: R.strings.email,
-                          hintText: R.strings.emailHint, // 'Insira o seu e-mail',
+                          hintText: R.strings.emailHint,
                           keyboardType: TextInputType.emailAddress,
                           controller: controller.emailController,
                           textCapitalization: TextCapitalization.none,
@@ -76,13 +72,13 @@ class RegisterPage extends StatelessWidget {
                         Obx(() {
                           return TextFormFieldWidget(
                             labelText: R.strings.password,
-                            hintText: R.strings.createPasswordHint, // 'Crie uma senha',
-                            controller: controller.passwordController,
+                            hintText: R.strings.createPasswordHint,
+                            controller: controller.passwordCreateController,
                             keyboardType: TextInputType.visiblePassword,
                             obscureText: controller.isObscureTextPasswordRegister.value,
                             textInputAction: TextInputAction.next,
                             suffixIcon: InkWell(
-                              onTap: () => controller.toggleObscureTextPasswordRegister(),
+                              onTap: () => controller.toggleObscureText(controller: controller.passwordCreateController),
                               child: controller.isObscureTextPasswordRegister.value
                                   ? Icon(
                                 Icons.visibility_off,
@@ -101,14 +97,14 @@ class RegisterPage extends StatelessWidget {
                         SizedBox(height: 16.h),
                         Obx(() {
                           return TextFormFieldWidget(
-                            labelText: R.strings.confirmPasswordHint,
-                            hintText: R.strings.confirmPasswordHint, // 'Confirme a sua senha',
+                            labelText: R.strings.passwordConfirmation,
+                            hintText: R.strings.passwordConfirmationHint,
                             controller: controller.confirmPasswordController,
                             keyboardType: TextInputType.visiblePassword,
                             obscureText: controller.isObscureTextConfPasswordRegister.value,
                             textInputAction: TextInputAction.done,
                             suffixIcon: InkWell(
-                              onTap: () => controller.toggleObscureTextConfPasswordRegister(),
+                              onTap: () => controller.toggleObscureText(controller: controller.confirmPasswordController),
                               child: controller.isObscureTextConfPasswordRegister.value
                                   ? Icon(
                                 Icons.visibility_off,
@@ -143,10 +139,10 @@ class RegisterPage extends StatelessWidget {
                     },
                     child: Text.rich(
                       TextSpan(
-                        text: R.strings.alreadyRegistered, // 'Já tem uma conta? ',
+                        text: R.strings.alreadyHaveAnAccount,
                         children: [
                           TextSpan(
-                            text: R.strings.doLogin, // 'Faça login',
+                            text: R.strings.doLogin,
                             style: TextStyle(
                               color: AppColors.primaryColor,
                               fontWeight: FontWeight.bold,

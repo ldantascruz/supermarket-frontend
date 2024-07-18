@@ -2,8 +2,8 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
-import '../../../entity/user.dart';
 
 class AppSecureStorage {
   static const _storage = FlutterSecureStorage();
@@ -55,42 +55,10 @@ class AppSecureStorage {
     }
   }
 
-// TOKEN RELATED
-  Future<void> saveToken(String token) async {
-    try {
-      await writeSecureData('userToken', token);
-      debugPrint('🟢 Token salvo: $token');
-    } catch (e) {
-      debugPrint('🔴 Erro ao salvar token: ${e.toString()}');
-    }
-  }
-
-  Future<String?> getToken() async {
-    try {
-      final userToken = await readSecureData('userToken');
-      debugPrint('🟢 Token lido: $userToken');
-      return userToken;
-    } catch (e) {
-      debugPrint('🔴 Erro ao ler token: ${e.toString()}');
-      return null;
-    }
-  }
-
-  Future<void> deleteToken() async {
-    try {
-      await deleteSecureData('userToken');
-      debugPrint('🟢 Token deletado');
-    } catch (e) {
-      debugPrint('🔴 Erro ao deletar token: ${e.toString()}');
-    }
-  }
-
   // USER RELATED
-  Future<void> saveUser(User usuario) async {
+  Future<void> saveUser(User? user) async {
     try {
-      saveToken(usuario.token!);
-      await writeSecureData('user', jsonEncode(usuario.toMap()));
-      debugPrint('🟢 Usuário salvo: ${usuario.toMap()}');
+      await _storage.write(key: 'user', value: jsonEncode(user?.toJson()), aOptions: _secureOption());
     } catch (e) {
       debugPrint('🔴 Erro ao salvar usuário: ${e.toString()}');
     }
@@ -99,21 +67,43 @@ class AppSecureStorage {
   Future<String?> getUser() async {
     try {
       final user = await _storage.read(key: 'user');
-      debugPrint('🟢 Usuário lido: $user');
       return user;
     } catch (e) {
-      debugPrint('🔴 Erro ao ler usuário: ${e.toString()}');
       return null;
     }
   }
 
   Future<void> deleteUser() async {
     try {
-      await deleteToken();
       await _storage.delete(key: 'user');
-      debugPrint('🟢 Usuário deletado');
     } catch (e) {
       debugPrint('🔴 Erro ao deletar usuário: ${e.toString()}');
+    }
+  }
+
+  // SESSION RELATED
+  Future<void> saveSession(Session? session) async {
+    try {
+      await _storage.write(key: 'session', value: jsonEncode(session?.toJson()), aOptions: _secureOption());
+    } catch (e) {
+      debugPrint('🔴 Erro ao salvar sessão: ${e.toString()}');
+    }
+  }
+
+  Future<String?> getSession() async {
+    try {
+      final session = await _storage.read(key: 'session');
+      return session;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  Future<void> deleteSession() async {
+    try {
+      await _storage.delete(key: 'session');
+    } catch (e) {
+      debugPrint('🔴 Erro ao deletar sessão: ${e.toString()}');
     }
   }
 }

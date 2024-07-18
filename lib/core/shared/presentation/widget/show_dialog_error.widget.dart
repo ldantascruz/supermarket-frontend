@@ -3,31 +3,28 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
 
+import '../../../../i18n/_i18n.dart';
 import '../../../config/constants/app.colors.dart';
 
-void showCustomDialogError({BuildContext? context, required String title, required String content, required String buttonText}) {
+void showDialogErrorWidget({required BuildContext context, required String title, required String content}) {
   showDialog(
-    context: context ?? Get.context!,
+    context: context,
     builder: (BuildContext context) {
       return AlertDialog(
-        backgroundColor: AppColors.backgroundColor,
+        backgroundColor: AppColors.primaryColor,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16.sp),
-          side: BorderSide(color: AppColors.primaryColor, width: 10),
+          side: const BorderSide(color: AppColors.primaryColor, width: 10),
         ),
         title: Row(
           children: [
-            Icon(
-                Icons.cancel_outlined,
-                color: AppColors.errorColor,
-                size: 30
-            ),
-            SizedBox(width: 10),
+            Icon(Icons.error_outline_outlined, color: AppColors.errorColor, size: 60.sp),
+            const SizedBox(width: 10),
             Text(
               title,
               style: TextStyle(
                 color: AppColors.errorColor,
-                fontSize: 20.sp,
+                fontSize: 40.sp,
                 fontWeight: FontWeight.bold,
               ),
             ),
@@ -36,7 +33,7 @@ void showCustomDialogError({BuildContext? context, required String title, requir
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text(content, textAlign: TextAlign.center, style: TextStyle(color: AppColors.errorColor, fontSize: 14.sp)),
+            Text(content, textAlign: TextAlign.center, style: TextStyle(color: AppColors.secondaryColor, fontSize: 20.sp)),
           ],
         ),
         actions: <Widget>[
@@ -44,7 +41,11 @@ void showCustomDialogError({BuildContext? context, required String title, requir
             onPressed: () {
               Get.back();
             },
-            child: Text(buttonText, style: TextStyle(color: AppColors.primaryColor, fontSize: 16.sp, fontWeight: FontWeight.bold)),
+            child: Container(
+              decoration: BoxDecoration(borderRadius: BorderRadius.circular(10.sp), color: AppColors.secondaryColor),
+              padding: EdgeInsets.all(10.sp),
+              child: Text(R.strings.ok, style: TextStyle(color: AppColors.primaryColor, fontSize: 20.sp, fontWeight: FontWeight.bold)),
+            ),
           ),
         ],
       );

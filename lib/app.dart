@@ -24,7 +24,7 @@ class App extends StatelessWidget {
       designSize: designSize,
       minTextAdapt: true,
       child: GetMaterialApp(
-        title: R.strings.mySupermarket,
+        title: R.strings.myMarket,
         debugShowCheckedModeBanner: false,
         navigatorKey: navigatorKey,
         theme: AppThemes.themeData,

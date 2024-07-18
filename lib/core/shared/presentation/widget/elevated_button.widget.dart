@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../config/constants/app.colors.dart';
-import '../../../config/constants/app.fonts.dart';
-import '../../../config/constants/app.size.dart';
+import '../../../config/constants/_constants.dart';
 
 class ElevatedButtonWidget extends StatelessWidget {
   final double? width;
-  final String text;
+  final String? text;
   final Color? buttonColor;
   final Color? borderColor;
   final Function() onTap;
@@ -19,7 +17,7 @@ class ElevatedButtonWidget extends StatelessWidget {
   const ElevatedButtonWidget({
     super.key,
     this.width,
-    required this.text,
+    this.text,
     this.buttonColor,
     this.borderColor,
     required this.onTap,
@@ -38,33 +36,47 @@ class ElevatedButtonWidget extends StatelessWidget {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8.r),
           color: buttonColor ?? AppColors.primaryColor,
-          border: buttonColor == AppColors.backgroundColor ||
+          border: buttonColor == AppColors.primaryColor ||
                   buttonColor == AppColors.whiteColor
               ? Border.all(
                   color: borderColor ?? AppColors.primaryColor,
-                  width: 2,
+                  width: 1,
                 )
               : null,
         ),
         width: width,
         height: AppSize.buttonHeight,
+        alignment: Alignment.center,
         child: Center(
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(
-                text,
-                style: TextStyle(
-                  color: textColor ?? AppColors.whiteColor,
-                  fontSize: 16.sp,
-                  fontWeight: FontWeight.w600,
+              text == null
+                ? const SizedBox.shrink()
+                :
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 8.w),
+                child: Text(
+                  text!,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: textColor ?? AppColors.whiteColor,
+                    fontSize: 14.sp,
+                    fontWeight: FontWeight.w500,
+                    fontFamily: AppFonts.poppins,
+                  ),
                 ),
               ),
-              Icon(
-                icon,
-                size: iconSize ?? 16.sp,
-                color: textColor ?? AppColors.whiteColor,
-              ),
+              icon == null
+                ? const SizedBox.shrink()
+                : Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 16.w),
+                  child: Icon(
+                      icon,
+                      size: iconSize ?? 16.sp,
+                      color: textColor ?? AppColors.whiteColor,
+                    ),
+                ),
             ],
           ),
         ),

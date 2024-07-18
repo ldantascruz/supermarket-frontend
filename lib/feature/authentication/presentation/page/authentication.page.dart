@@ -5,17 +5,15 @@ import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 
-import '../../../../core/config/constants/app.colors.dart';
-import '../../../../core/shared/presentation/widget/elevated_button.widget.dart';
-import '../../../../core/shared/presentation/widget/text_form_field.widget.dart';
-import '../../../../core/util/validator/email_validator.dart';
-import '../../../../core/util/validator/password_validator.dart';
+import '../../../../core/config/constants/_constants.dart';
+import '../../../../core/shared/presentation/widget/_widget.dart';
+import '../../../../core/util/validator/_validator.dart';
 import '../../../../i18n/_i18n.dart';
 import '../../authentication.routes.dart';
 import '../controller/authentication.controller.dart';
 
-class LoginPage extends StatelessWidget {
-  const LoginPage({super.key});
+class AuthenticationPage extends StatelessWidget {
+  const AuthenticationPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +28,10 @@ class LoginPage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 SizedBox(height: 189.h),
-                ClipRRect(borderRadius: BorderRadius.circular(32.r), child: Image.asset('assets/images/icon_transparent_2.png', width: 100.w)),
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(32.r),
+                  child: Image.asset(AppAssets.logo, width: 100.w),
+                ),
                 SizedBox(height: 42.h),
                 Text(R.strings.login, textAlign: TextAlign.center, style: TextStyle(fontSize: 32.sp, fontWeight: FontWeight.bold, color: AppColors.primaryColor)),
                 SizedBox(height: 42.h),
@@ -40,7 +41,7 @@ class LoginPage extends StatelessWidget {
                     children: [
                       TextFormFieldWidget(
                         labelText: R.strings.email,
-                        hintText: R.strings.emailHint, // 'Digite aqui o seu e-mail'
+                        hintText: R.strings.emailHint,
                         keyboardType: TextInputType.emailAddress,
                         textInputAction: TextInputAction.next,
                         textCapitalization: TextCapitalization.none,
@@ -89,14 +90,15 @@ class LoginPage extends StatelessWidget {
                     Get.toNamed(AuthenticationRoutes.register);
                   },
                   child: Text.rich(
-                    TextSpan(text: R.strings.doNotHaveAnAccount,
+                    TextSpan(text: '${R.strings.doNotHaveAnAccount} ',
                       children: [
                         TextSpan(
-                          text: R.strings.register, // 'Cadastre-se',
+                          text: R.strings.signUp,
                           style: TextStyle(
                             color: AppColors.primaryColor,
                             fontWeight: FontWeight.bold,
-                          )),
+                          ),
+                        ),
                       ],
                     ),
                   ),

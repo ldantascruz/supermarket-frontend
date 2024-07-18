@@ -1,4 +1,6 @@
-import '../../../../entity/user.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+
+import '../../../../entity/authentication.dart';
 import '../repository/authentication.repository.dart';
 
 class DoRegisterUsecase {
@@ -6,9 +8,9 @@ class DoRegisterUsecase {
 
   DoRegisterUsecase(this.repository);
 
-  Future<User> call({required User newUser}) async {
+  Future<User?> call(Authentication authentication) async {
     try {
-      return await repository.doRegister(newUser: newUser);
+      return await repository.doRegister(authentication: authentication);
     } catch (e) {
       rethrow;
     }

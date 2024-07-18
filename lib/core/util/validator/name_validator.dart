@@ -1,14 +1,17 @@
+import '../../../i18n/_i18n.dart';
+
 class NameValidator {
   String? validate({String? name}) {
     if (name == null || name.isEmpty) {
-      return 'O nome é obrigatório';
+      return R.strings.requiredField;
     }
     if (!RegExp(r'^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$').hasMatch(name)) {
-      return 'O nome deve conter apenas letras e espaços';
+      return R.strings.invalidName;
     }
     if (!name.contains(' ')) {
-      return 'Digite o seu nome completo';
+      return R.strings.insertFullName;
     }
     return null;
   }
 }
+

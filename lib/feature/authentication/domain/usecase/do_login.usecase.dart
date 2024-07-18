@@ -1,5 +1,6 @@
+import 'package:supabase_flutter/supabase_flutter.dart';
+
 import '../../../../entity/authentication.dart';
-import '../../../../entity/user.dart';
 import '../repository/authentication.repository.dart';
 
 class DoLoginUsecase {
@@ -7,7 +8,7 @@ class DoLoginUsecase {
 
   DoLoginUsecase(this.repository);
 
-  Future<User> call({required Authentication authentication}) async {
+  Future<User?> call(Authentication authentication) async {
     try {
       return await repository.doLogin(authentication: authentication);
     } catch (e) {

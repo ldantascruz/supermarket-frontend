@@ -1,14 +1,16 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../config/constants/app.colors.dart';
+import '../../../config/constants/app.fonts.dart';
 import '../../../config/constants/app.size.dart';
 
 class TextFormFieldWidget extends StatelessWidget {
   final String labelText;
   final String hintText;
-  final String? initialValue;
   final TextEditingController controller;
   final Function(String)? validator;
   final Function(String)? onChanged;
@@ -22,12 +24,13 @@ class TextFormFieldWidget extends StatelessWidget {
   final bool enabled;
   final int maxLines;
   final double? height;
+  final Color? backgroundColor;
+
 
   const TextFormFieldWidget({
     super.key,
     required this.labelText,
     required this.hintText,
-    this.initialValue,
     required this.controller,
     this.obscureText,
     this.keyboardType,
@@ -41,6 +44,7 @@ class TextFormFieldWidget extends StatelessWidget {
     this.enabled = true,
     this.maxLines = 1,
     this.height,
+    this.backgroundColor,
   });
 
   @override
@@ -52,17 +56,22 @@ class TextFormFieldWidget extends StatelessWidget {
           labelText,
           textAlign: TextAlign.start,
           style: TextStyle(
-            fontSize: 16.sp,
-            fontWeight: FontWeight.w600,
+            fontSize: 12.sp,
+            fontFamily: AppFonts.poppins,
+            fontWeight: FontWeight.w500,
             color: AppColors.primaryColor,
           ),
         ),
         SizedBox(height: 5.h),
         Container(
-          height: height,
           alignment: Alignment.centerLeft,
+          decoration: BoxDecoration(
+            color: backgroundColor,
+            borderRadius: BorderRadius.circular(8),
+            border: Border.all(color: AppColors.primaryColor, width: 1.5),
+          ),
           child: TextFormField(
-            initialValue: initialValue,
+            selectionHeightStyle: BoxHeightStyle.tight,
             maxLines: maxLines,
             minLines: 1,
             enabled: enabled,
@@ -75,65 +84,45 @@ class TextFormFieldWidget extends StatelessWidget {
             textInputAction: textInputAction ?? TextInputAction.next,
             textCapitalization: textCapitalization ?? TextCapitalization.none,
             cursorColor: AppColors.primaryColor,
-            cursorHeight: AppSize.cursorHeight - 15,
+            cursorHeight: AppSize.cursorHeight - 15.h,
             onEditingComplete: onEditingComplete,
             decoration: InputDecoration(
               suffixIcon: suffixIcon,
               filled: true,
-              fillColor: AppColors.whiteColor,
+              fillColor: backgroundColor,
               hintText: hintText,
-              contentPadding: EdgeInsets.symmetric(
-                horizontal: AppSize.horizontalPadding,
-              ),
+              contentPadding: EdgeInsets.symmetric(horizontal: AppSize.horizontalPadding, vertical: height ?? 15),
               enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10.r),
-                borderSide: const BorderSide(
-                  width: 2,
-                  color: AppColors.primaryColor,
-                ),
+                borderRadius: BorderRadius.circular(8.sp),
+                borderSide: BorderSide(width: 0.5.sp, color: AppColors.secondaryColor),
               ),
               errorBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10.r),
-                borderSide: const BorderSide(
-                  width: 1.5,
-                  color: AppColors.errorColor,
-                ),
+                borderRadius: BorderRadius.circular(8.sp),
+                borderSide: const BorderSide(width: 1.5, color: AppColors.errorColor),
               ),
               focusedErrorBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10.r),
-                borderSide: const BorderSide(
-                  width: 1.5,
-                  color: AppColors.errorColor,
-                ),
+                borderRadius: BorderRadius.circular(8.sp),
+                borderSide: const BorderSide(width: 1.5, color: AppColors.errorColor),
               ),
               focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10.r),
-                borderSide: const BorderSide(
-                  width: 1.5,
-                  color: AppColors.primaryColor,
-                ),
+                borderRadius: BorderRadius.circular(8.sp),
+                borderSide: const BorderSide(width: 1.5, color: AppColors.primaryColor),
               ),
               border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10.r),
-                borderSide: const BorderSide(
-                  width: 2,
-                  color: AppColors.blackColor,
-                ),
+                borderRadius: BorderRadius.circular(8.sp),
+                borderSide: const BorderSide(width: 0.5, color: AppColors.primaryColor),
               ),
               hintStyle: TextStyle(
-                color: AppColors.primaryColor.withOpacity(0.5),
-                fontSize: 14.sp,
-                fontWeight: FontWeight.w400,
-              ),
-              errorStyle: TextStyle(
-                color: AppColors.errorColor,
+                color: AppColors.secondaryColor,
                 fontSize: 12.sp,
-                fontWeight: FontWeight.w500,
+                fontFamily: AppFonts.poppins,
+                fontWeight: FontWeight.w400,
               ),
             ),
             style: TextStyle(
               color: AppColors.primaryColor,
-              fontSize: 14.sp,
+              fontSize: 12.sp,
+              fontFamily: AppFonts.poppins,
               fontWeight: FontWeight.w500,
             ),
           ),

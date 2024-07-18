@@ -1,8 +1,9 @@
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
-import 'package:supermarket_flutter/core/shared/presentation/widget/show.custom_dialog_error.widget.dart';
 
+import '../../i18n/_i18n.dart';
 import '../config/constants/app.colors.dart';
+import '../shared/presentation/widget/_widget.dart';
 
 class MapException implements Exception {
   final Exception exception;
@@ -21,12 +22,16 @@ class UnauthorizedException implements Exception {
   final String? message;
   UnauthorizedException({this.message});
 
-  void printError() => showCustomDialogError(title: 'Erro 401', content: message ?? 'Usuário / Senha inválidos', buttonText: 'OK');
+  void printError() => showDialogErrorWidget(
+      context: Get.context!,
+      title: '${R.strings.error} 401',
+      content: message ?? R.strings.invalidUserOrPassword
+  );
 
   @override
   String toString() {
     printError();
-    return 'Usuário não autorizado';
+    return R.strings.invalidUserOrPassword;
   }
 }
 
@@ -34,12 +39,16 @@ class NotFoundException implements Exception {
   final String? message;
   NotFoundException({this.message});
 
-  void printError() => showCustomDialogError(title: 'Erro 404', content: message ?? 'Recurso não encontrado', buttonText: 'OK');
+  void printError() => showDialogErrorWidget(
+      context: Get.context!,
+      title: '${R.strings.error} 404',
+      content: message ?? R.strings.notFound
+  );
 
   @override
   String toString() {
     printError();
-    return 'Recurso não encontrado';
+    return R.strings.notFound;
   }
 }
 
@@ -47,12 +56,16 @@ class ServerException implements Exception {
   final String? message;
   ServerException({this.message});
 
-  void printError() => showCustomDialogError(title: 'Erro 500', content: message ?? 'Erro interno no servidor', buttonText: 'OK');
+  void printError() => showDialogErrorWidget(
+      context: Get.context!,
+      title: '${R.strings.error} 500',
+      content: message ?? R.strings.serverError
+  );
 
   @override
   String toString() {
     printError();
-    return 'Erro interno no servidor';
+    return R.strings.serverError;
   }
 }
 
@@ -60,12 +73,16 @@ class BadRequestException implements Exception {
   final String? message;
   BadRequestException({this.message});
 
-  void printError() => showCustomDialogError(title: 'Erro 422', content: message ?? 'Requisição inválida', buttonText: 'OK');
+  void printError() => showDialogErrorWidget(
+      context: Get.context!,
+      title: '${R.strings.error} 400',
+      content: message ?? R.strings.badRequest
+  );
 
   @override
   String toString() {
     printError();
-    return 'Requisição inválida';
+    return R.strings.badRequest;
   }
 }
 
@@ -73,11 +90,15 @@ class ForbiddenException implements Exception {
   final String? message;
   ForbiddenException({this.message});
 
-  void printError() => showCustomDialogError(title: 'Erro 403', content: message ?? 'Acesso negado', buttonText: 'OK');
+  void printError() => showDialogErrorWidget(
+      context: Get.context!,
+      title: '${R.strings.error} 403',
+      content: message ?? R.strings.accessDenied
+  );
 
   @override
   String toString() {
     printError();
-    return 'Acesso negado';
+    return R.strings.accessDenied;
   }
 }

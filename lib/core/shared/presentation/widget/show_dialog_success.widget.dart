@@ -5,20 +5,20 @@ import 'package:get/get_navigation/src/extension_navigation.dart';
 
 import '../../../config/constants/app.colors.dart';
 
-void showCustomDialogSuccess({required BuildContext context, required String title, required String content, required String route}) {
+void showDialogSuccessWidget({required BuildContext context, required String title, required String content, required String route}) {
   showDialog(
     context: context,
     builder: (BuildContext context) {
       return AlertDialog(
-        backgroundColor: AppColors.backgroundColor,
+        backgroundColor: AppColors.secondaryColor,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16.sp),
-          side: BorderSide(color: AppColors.primaryColor, width: 10),
+          side: const BorderSide(color: AppColors.primaryColor, width: 10),
         ),
         title: Row(
           children: [
-            Icon(Icons.check_circle, color: AppColors.primaryColor, size: 30),
-            SizedBox(width: 10),
+            const Icon(Icons.check_circle, color: AppColors.primaryColor, size: 30),
+            const SizedBox(width: 10),
             Text(
               title,
               style: TextStyle(

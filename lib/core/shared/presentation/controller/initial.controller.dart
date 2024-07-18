@@ -1,38 +1,53 @@
-import 'dart:convert';
-
-import 'package:flutter/foundation.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
-import 'package:supermarket_flutter/core/config/storage/app.secure_storage.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
-import '../../../../entity/user.dart';
-import 'usuario_logado.controller.dart';
+import '../../../config/constants/_constants.dart';
+import 'session.controller.dart';
+import 'user_logged.controller.dart';
 
 class InitialController extends GetxController {
-  final usuarioController = Get.find<UsuarioLogadoController>();
-  var secureStorage = Get.find<AppSecureStorage>();
+  final userLoggedController = Get.find<UserLoggedController>();
+  final sessionController = Get.find<SessionController>();
+  final secureStorage = Get.find<AppSecureStorage>();
+
+  final supabase = Supabase.instance.client;
 
   @override
   void onInit() {
     super.onInit();
+    initializeSession();
     initializeUser();
   }
 
-  void initializeUser() async {
-    String? token = await secureStorage.getToken();
-    if (token != null && token.isNotEmpty) {
-      String? userStored = await secureStorage.getUser();
+  void initializeSession() async {
+    String? sessionString = await secureStorage.getSession();
+    if (sessionString != null) {
       try {
-        Map<String, dynamic> userMap = jsonDecode(userStored!);
-        User usuario = UserExtension.fromMap(userMap);
-        usuarioController.logIn(usuario);
+        await sessionController.getCurrentSession();
       } catch (e) {
+        secureStorage.deleteSession();
         rethrow;
       }
-    }
-    else {
-      usuarioController.logOut();
+    } else {
+      sessionController.logOut();
     }
   }
+
+  void initializeUser() async {
+    String? userString = await secureStorage.getUser();
+    if (userString != null) {
+      try {
+        await userLoggedController.getUserLogged();
+      } catch (e) {
+        secureStorage.deleteUser();
+        rethrow;
+      }
+    } else {
+      userLoggedController.logOut();
+    }
+  }
+
+
 }

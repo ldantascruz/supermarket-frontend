@@ -1,26 +1,29 @@
+import 'package:supabase_flutter/supabase_flutter.dart';
+
 import '../../../../entity/authentication.dart';
-import '../../../../entity/user.dart';
 import '../../domain/repository/authentication.repository.dart';
-import '../datasource/authentication.datasource.dart';
 
 class AuthenticationRepositoryImpl implements AuthenticationRepository {
-  final AuthenticationDatasource datasource;
-
-  AuthenticationRepositoryImpl(this.datasource);
+  final supabase = Supabase.instance.client;
 
   @override
-  Future<User> doLogin({required Authentication authentication}) async {
+  Future<User?> doLogin({required Authentication authentication}) async {
     try {
-      return await datasource.doLogin(authentication: authentication);
+      final AuthResponse authResponse = await supabase.auth.signInWithPassword(
+        email: authentication.email,
+        password: authentication.password,
+      );
+      final Session? session = authResponse.session;
+      final User? user = authResponse.user;
     } catch (e) {
       rethrow;
     }
   }
 
   @override
-  Future<User> doRegister({required User newUser}) async {
+  Future<User?> doRegister({required Authentication authentication}) async {
     try {
-      return await datasource.doRegister(newUser: newUser);
+      throw UnimplementedError();
     } catch (e) {
       rethrow;
     }
