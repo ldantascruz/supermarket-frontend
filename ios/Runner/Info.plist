@@ -2,12 +2,10 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>CADisableMinimumFrameDurationOnPhone</key>
-	<true/>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
-	<string>Meu Mercado</string>
+	<string>Supermarket Flutter</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -15,30 +13,16 @@
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>$(PRODUCT_NAME)</string>
+	<string>supermarket_flutter</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1001</string>
+	<string>$(FLUTTER_BUILD_NAME)</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>1.0.0</string>
+	<string>$(FLUTTER_BUILD_NUMBER)</string>
 	<key>LSRequiresIPhoneOS</key>
-	<true/>
-	<key>NSCameraUsageDescription</key>
-	<string>Esta aplicação utiliza a câmera do seu dispositivo para permitir que você tire e envie fotos para o aplicativo, e atualize sua foto de perfil. As fotos que você tira são armazenadas em nossos servidores e podem ser usadas para personalizar sua experiência no aplicativo e para melhorar suas funcionalidades e recursos. Suas fotos não serão compartilhadas com terceiros sem seu consentimento. Ao conceder acesso à câmera do seu dispositivo, você concorda em permitir que nós coletemos e usemos suas fotos conforme descrito nesta declaração.</string>
-	<key>NSFaceIDUsageDescription</key>
-	<string>$(PRODUCT_NAME) Autenticação com TouchId ou FaceID</string>
-	<key>NSLocalNetworkUsageDescription</key>
-	<string>Permite que as ferramentas do Flutter se conctem e debugem a aplicação</string>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>$(PRODUCT_NAME) Utilizamos a localização do seu dispositivo para facilitar a pesquisa no Guia Médico, bem como localizar nossas unidades</string>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Esta aplicação utiliza a biblioteca de fotos do seu dispositivo para permitir que você selecione e envie fotos para o aplicativo, e para atualizar sua foto de perfil. As fotos que você seleciona são armazenadas em nossos servidores e podem ser usadas para personalizar sua experiência no aplicativo e melhorar suas funcionalidades e recursos. Suas fotos não serão compartilhadas com terceiros sem seu consentimento. Ao conceder acesso à sua biblioteca de fotos, você concorda em permitir que nós coletemos e usemos suas fotos conforme descrito nesta declaração.</string>
-	<key>Privacy - Camera Usage Description</key>
-	<string>Esta aplicação utiliza a câmera do seu dispositivo para permitir que você tire e envie fotos para o aplicativo, e para atualizar sua foto de perfil. As fotos que você tira são armazenadas em nossos servidores e podem ser usadas para personalizar sua experiência no aplicativo e melhorar suas funcionalidades e recursos. Suas fotos não serão compartilhadas com terceiros sem seu consentimento. Ao conceder acesso à sua câmera, você concorda em permitir que nós coletemos e usemos suas fotos conforme descrito nesta declaração. Garantimos que as informações coletadas serão usadas apenas para o propósito estabelecido e serão protegidas de acordo com nossas políticas de privacidade.</string>
-	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
@@ -57,5 +41,9 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>CADisableMinimumFrameDurationOnPhone</key>
+	<true/>
+	<key>UIApplicationSupportsIndirectInputEvents</key>
+	<true/>
 </dict>
 </plist>

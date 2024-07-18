@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
-import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -11,86 +10,74 @@ import 'package:supermarket_flutter/core/shared/presentation/widget/_widget.dart
 
 import '../../../../entity/authentication.dart';
 import '../../../../i18n/_i18n.dart';
-import '../../../home/home.routes.dart';
-import '../../authentication.routes.dart';
-import '../../domain/usecase/do_login.usecase.dart';
-import '../../domain/usecase/do_register.usecase.dart';
+import '../../domain/usecase/authenticate.usecase.dart';
 
 class AuthenticationController extends GetxController {
-  DoLoginUsecase doLoginUsecase = Get.find<DoLoginUsecase>();
-  DoRegisterUsecase doRegisterUsecase = Get.find<DoRegisterUsecase>();
+  AuthenticateUsecase authenticateUsecase = Get.find<AuthenticateUsecase>();
 
-  GlobalKey<FormState> loginFormKey = GlobalKey<FormState>();
+  GlobalKey<FormState> formKey = GlobalKey<FormState>();
   GlobalKey<FormState> registerFormKey = GlobalKey<FormState>();
 
-  TextEditingController nameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-  TextEditingController passwordCreateController = TextEditingController();
   TextEditingController confirmPasswordController = TextEditingController();
 
-  RxBool isObscureTextPasswordLogin = true.obs;
-  RxBool isObscureTextPasswordRegister = true.obs;
-  RxBool isObscureTextConfPasswordRegister = true.obs;
+  RxBool isObscureTextPassword = true.obs;
+  RxBool isObscureTextConfirmPassword = true.obs;
 
   RxBool isLoading = false.obs;
-
+  RxBool isRegisterObs = false.obs;
 
   void toggleObscureText({required TextEditingController controller}) {
     if(controller == passwordController) {
-      isObscureTextPasswordLogin.value = !isObscureTextPasswordLogin.value;
+      isObscureTextPassword.value = !isObscureTextPassword.value;
     }
     else if(controller == confirmPasswordController) {
-      isObscureTextConfPasswordRegister.value = !isObscureTextConfPasswordRegister.value;
-    }
-    else if(controller == passwordCreateController){
-      isObscureTextPasswordRegister.value = !isObscureTextPasswordRegister.value;
+      isObscureTextConfirmPassword.value = !isObscureTextConfirmPassword.value;
     }
   }
 
-
-  Future<void> doLogin() async {
-    isLoading.value = true;
-    try{
-      if(loginFormKey.currentState!.validate()){
-        final authentication = Authentication(
-          email: emailController.text,
-          password: passwordController.text,
-        );
-
-        isLoading.value = false;
-        User? user = await doLoginUsecase(authentication);
-
-        Get.offAllNamed(HomeRoutes.home, arguments: user);
-
-      }
-      else {
-        isLoading.value = false;
-      }
-    } catch (e) {
-      isLoading.value = false;
-      rethrow;
-    }
+  void toggleRegister() {
+    formKey.currentState!.reset();
+    isRegisterObs.value = !isRegisterObs.value;
   }
 
-
-  Future<void> doRegister({required BuildContext context}) async {
+  Future<void> authenticate({required BuildContext context, bool? isRegister}) async {
+    FocusScope.of(context).unfocus();
     isLoading.value = true;
     try{
       if(registerFormKey.currentState!.validate()){
         isLoading.value = false;
 
-        User? user = await doRegisterUsecase(Authentication(
-          email: emailController.text,
-          password: passwordCreateController.text,
-        ));
+        if(isRegister == true) {
+          isRegisterObs.value = true;
+          if(passwordController.text != confirmPasswordController.text) {
+            showDialogErrorWidget(
+              context: context,
+              title: R.strings.error,
+              content: R.strings.passwordNotMatch,
+            );
+            return;
+          } else if(passwordController.text.length < 6) {
+            showDialogErrorWidget(
+              context: context,
+              title: R.strings.error,
+              content: R.strings.passwordLength,
+            );
+            return;
+          }
+        } else {
+          isRegisterObs.value = false;
+        }
 
-        showDialogSuccessWidget(
-          context: context,
-          title: R.strings.success,
-          content: R.strings.registerSuccess,
-          route: AuthenticationRoutes.login,
+        User? user = await authenticateUsecase(
+          authentication: Authentication(
+            email: emailController.text,
+            password: passwordController.text,
+          ),
+          isRegister: isRegisterObs.value,
         );
+
       }
       else {
         isLoading.value = false;

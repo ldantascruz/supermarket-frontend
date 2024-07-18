@@ -21,6 +21,6 @@ class HomeController extends GetxController {
 
   void logout() {
     usuarioController.logOut();
-    Get.offAllNamed(AuthenticationRoutes.login);
+    Get.offAllNamed(AuthenticationRoutes.authentication);
   }
 }
